@@ -4,3 +4,4 @@ export { default as ProfilePage } from './ProfilePage';
 export { default as NotFoundPage } from './NotFoundPage';
 export { default as messages } from './ProfilePage.messages';
 export { default as ProfilePluginPage } from './ProfilePluginPage';
+export { default as ProfilePluginSlow } from './ProfilePluginSlow';
