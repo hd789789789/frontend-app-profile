@@ -8,5 +8,41 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      setInterval(() => {
+          [
+              {
+                  selector:
+                      '#root > header > div > div > nav.nav.main-nav > a',
+                  content: 'Courses',
+                  replacement: 'Khoá học',
+              },
+              {
+                  selector: '#root > header > div > div > nav.nav.secondary-menu-container.align-items-center.ml-auto > div > div > a:nth-child(1)',
+                  content: 'Dashboard',
+                  replacement: 'Bảng điều khiển',
+              },
+              {
+                  selector: '#root > header > div > div > nav.nav.secondary-menu-container.align-items-center.ml-auto > div > div > a:nth-child(2)',
+                  content: 'Profile',
+                  replacement: 'Hồ sơ',
+              },
+              {
+                  selector: '#root > header > div > div > nav.nav.secondary-menu-container.align-items-center.ml-auto > div > div > a:nth-child(3)',
+                  content: 'Account',
+                  replacement: 'Tài khoản',
+              },
+              {
+                  selector: '#root > header > div > div > nav.nav.secondary-menu-container.align-items-center.ml-auto > div > div > a:nth-child(4)',
+                  content: 'Logout',
+                  replacement: 'Đăng xuất',
+              },
+          ].forEach((item) => {
+              const element = document.querySelector(item.selector);
+              if (element && element.innerHTML.indexOf(item.content) != -1)
+                  element.innerHTML = element.innerHTML.replace(item.content, item.replacement);
+          });
+      }, 500);
+    </script>
   </body>
 </html>
