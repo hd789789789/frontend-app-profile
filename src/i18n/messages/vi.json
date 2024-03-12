@@ -1,6 +1,6 @@
 {
     "profile.page.title": "Hồ sơ | {siteName}",
-    "profile.age.details": "Để chia sẻ hồ sơ của bạn với những người học {siteName} khác, bạn phải xác nhận rằng bạn trên 13 tuổi.",
+    "profile.age.details": "Để chia sẻ hồ sơ của bạn với những người học {siteName} khác, bạn phải xác nhận rằng bạn trên 3 tuổi.",
     "profile.age.set.date": "Đặt ngày sinh của bạn",
     "profile.datejoined.member.since": "Thành viên kể từ {year}",
     "profile.notfound.message": "Trang bạn đang tìm kiếm không tồn tại hoặc có lỗi trong URL. Vui lòng kiểm tra URL và thử lại.",
