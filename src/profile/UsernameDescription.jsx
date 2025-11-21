@@ -10,7 +10,7 @@ const UsernameDescription = () => (
     <div className="username-description">
       <FormattedMessage
         id="profile.username.description"
-        defaultMessage="Your profile information is only visible to you. Only your username is visible to others on {siteName}."
+        defaultMessage="Thông tin hồ sơ của bạn chỉ hiển thị với bạn. Chỉ có tên người dùng của bạn hiển thị với những người khác trên {siteName}."
         description="A description of the username field"
         values={{
           siteName: getConfig().SITE_NAME,

@@ -13,13 +13,13 @@ const AgeMessage = ({ accountSettingsUrl }) => (
     <Alert.Heading id="profile.age.headline">
       <FormattedMessage
         id="profile.age.cannotShare"
-        defaultMessage="Your profile cannot be shared."
+        defaultMessage="Hồ sơ của bạn không thể được chia sẻ."
         description="Error message indicating that the user's profile cannot be shared"
       />
     </Alert.Heading>
     <FormattedMessage
       id="profile.age.details"
-      defaultMessage="To share your profile with other {siteName} learners, you must confirm that you are over the age of 13."
+      defaultMessage="Để chia sẻ hồ sơ của bạn với những người học khác trên {siteName}, bạn phải xác nhận rằng bạn trên 13 tuổi."
       description="Error message"
       tagName="p"
       values={{
@@ -29,7 +29,7 @@ const AgeMessage = ({ accountSettingsUrl }) => (
     <Alert.Link href={accountSettingsUrl}>
       <FormattedMessage
         id="profile.age.set.date"
-        defaultMessage="Set your date of birth"
+        defaultMessage="Đặt ngày sinh của bạn"
         description="Label on a link to set birthday"
       />
     </Alert.Link>

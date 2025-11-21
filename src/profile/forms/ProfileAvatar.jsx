@@ -64,7 +64,7 @@ class ProfileAvatar extends React.Component {
         >
           <FormattedMessage
             id="profile.profileavatar.upload-button"
-            defaultMessage="Upload Photo"
+            defaultMessage="Tải ảnh lên"
             description="Upload photo button"
           />
         </Button>
@@ -80,14 +80,14 @@ class ProfileAvatar extends React.Component {
           <Dropdown.Item type="button" onClick={this.onClickUpload}>
             <FormattedMessage
               id="profile.profileavatar.upload-button"
-              defaultMessage="Upload Photo"
+              defaultMessage="Tải ảnh lên"
               description="Upload photo button"
             />
           </Dropdown.Item>
           <Dropdown.Item type="button" onClick={this.onClickDelete}>
             <FormattedMessage
               id="profile.profileavatar.remove.button"
-              defaultMessage="Remove"
+              defaultMessage="Xóa"
               description="Remove photo button"
             />
           </Dropdown.Item>

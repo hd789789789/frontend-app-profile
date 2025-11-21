@@ -104,7 +104,7 @@ class Bio extends React.Component {
               <EmptyContent onClick={this.handleOpen}>
                 <FormattedMessage
                   id="profile.bio.empty"
-                  defaultMessage="Add a short bio"
+                  defaultMessage="Thêm một tiểu sử ngắn"
                   description="instructions when the user hasn't written an About Me"
                 />
               </EmptyContent>

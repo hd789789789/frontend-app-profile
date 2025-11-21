@@ -104,7 +104,7 @@ const EmptyListItem = ({ onClick, name }) => (
     <EmptyContent onClick={onClick}>
       <FormattedMessage
         id="profile.sociallinks.add"
-        defaultMessage="Add {network}"
+        defaultMessage="Thêm {network}"
         values={{
           network: name,
         }}
