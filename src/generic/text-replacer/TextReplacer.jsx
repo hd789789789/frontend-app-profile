@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 const useTextReplacer = () => {
     useEffect(() => {
-        // Function format date
         const formatDateToVietnamese = (dateString) => {
             if (!dateString) return "";
 
@@ -29,8 +28,8 @@ const useTextReplacer = () => {
                 replacements: { Courses: "Khoá học" },
             },
             {
-                selector:
-                    ".menu-content.mb-0.dropdown-menu.show.dropdown-menu-right.pin-right.shadow.py-2.menu-dropdown-enter-done > a.dropdown-item",
+                // ĐƠN GIẢN HÓA SELECTOR - bỏ .show và .menu-dropdown-enter-done
+                selector: ".dropdown-menu a.dropdown-item",
                 replacements: {
                     Dashboard: "Bảng điều khiển",
                     Profile: "Hồ sơ",
@@ -40,27 +39,24 @@ const useTextReplacer = () => {
             },
         ];
 
-        // Function thay thế text theo selector
         const replaceTexts = () => {
             translations.forEach(({ selector, replacements }) => {
                 const elements = document.querySelectorAll(selector);
                 elements.forEach((el) => {
-                    Object.entries(replacements).forEach(([vi, en]) => {
-                        if (el.textContent.trim() === vi) {
-                            el.textContent = en;
+                    Object.entries(replacements).forEach(([eng, viet]) => {
+                        if (el.textContent.trim() === eng) {
+                            el.textContent = viet;
                         }
                     });
                 });
             });
         };
 
-        // Function thay thế ngày tháng trong toàn bộ DOM
         const replaceDates = (node = document.body) => {
             const replaceInTextNode = (textNode) => {
                 let text = textNode.textContent;
                 let modified = false;
 
-                // Pattern 1: "Mon, Nov 24, 2025" hoặc "Monday, November 24, 2025"
                 const pattern1 =
                     /\b(Mon|Monday|Tue|Tuesday|Wed|Wednesday|Thu|Thursday|Fri|Friday|Sat|Saturday|Sun|Sunday),?\s+(Jan|January|Feb|February|Mar|March|Apr|April|May|Jun|June|Jul|July|Aug|August|Sep|September|Oct|October|Nov|November|Dec|December)\s+(\d{1,2}),?\s+(\d{4})\b/gi;
 
@@ -75,7 +71,6 @@ const useTextReplacer = () => {
                     modified = true;
                 }
 
-                // Pattern 2: "2025-11-24" hoặc "11/24/2025"
                 const pattern2 = /\b(\d{4})-(\d{2})-(\d{2})\b/g;
                 if (pattern2.test(text)) {
                     text = text.replace(pattern2, (match) => {
@@ -88,7 +83,6 @@ const useTextReplacer = () => {
                     modified = true;
                 }
 
-                // Pattern 3: Các tháng tiếng Anh riêng lẻ
                 const monthReplacements = {
                     January: "Tháng 1",
                     February: "Tháng 2",
@@ -128,15 +122,12 @@ const useTextReplacer = () => {
                 }
             };
 
-            // Duyệt qua các text nodes
             const walker = document.createTreeWalker(node, NodeFilter.SHOW_TEXT, {
                 acceptNode: (node) => {
-                    // Bỏ qua script, style tags
                     const parent = node.parentElement;
                     if (parent && (parent.tagName === "SCRIPT" || parent.tagName === "STYLE")) {
                         return NodeFilter.FILTER_REJECT;
                     }
-                    // Chỉ xử lý node có nội dung
                     if (node.textContent.trim().length > 0) {
                         return NodeFilter.FILTER_ACCEPT;
                     }
@@ -153,38 +144,51 @@ const useTextReplacer = () => {
             textNodes.forEach(replaceInTextNode);
         };
 
-        // Function gộp: thay thế text và date
         const replaceAll = () => {
             replaceTexts();
             replaceDates();
         };
 
-        // Chạy nhiều lần để đảm bảo DOM đã load
+        // Initial run
         const timeouts = [0, 100, 300, 500, 1000].map((delay) => setTimeout(replaceAll, delay));
 
-        // Observer để theo dõi DOM changes
+        // Observer với debounce để catch dropdown animations
+        let observerTimeout;
         const observer = new MutationObserver((mutations) => {
-            replaceTexts();
+            clearTimeout(observerTimeout);
 
-            // Chỉ replace date cho nodes mới thêm vào
-            mutations.forEach((mutation) => {
-                mutation.addedNodes.forEach((node) => {
-                    if (node.nodeType === Node.ELEMENT_NODE) {
-                        replaceDates(node);
-                    } else if (node.nodeType === Node.TEXT_NODE) {
-                        replaceDates(node.parentElement);
-                    }
+            // DEBOUNCE để đợi animation hoàn tất
+            observerTimeout = setTimeout(() => {
+                replaceTexts();
+
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.nodeType === Node.ELEMENT_NODE) {
+                            replaceDates(node);
+
+                            // SPECIFIC: Check nếu là dropdown menu
+                            if (node.classList && node.classList.contains("dropdown-menu")) {
+                                console.log("Dropdown menu detected, running replaceTexts");
+                                replaceTexts();
+                            }
+                        } else if (node.nodeType === Node.TEXT_NODE) {
+                            replaceDates(node.parentElement);
+                        }
+                    });
                 });
-            });
+            }, 100); // Debounce 100ms để đợi animation
         });
 
         observer.observe(document.body, {
             childList: true,
             subtree: true,
+            attributes: true, // THÊM: Theo dõi attribute changes (class changes)
+            attributeFilter: ["class"], // CHỈ theo dõi class changes
         });
 
         return () => {
             timeouts.forEach(clearTimeout);
+            clearTimeout(observerTimeout);
             observer.disconnect();
         };
     }, []);
